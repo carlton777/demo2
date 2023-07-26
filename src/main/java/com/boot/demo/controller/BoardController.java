@@ -31,7 +31,9 @@ public class BoardController {
         return "board/list";
     }
     @GetMapping("/form")
-    public String form(Model model, @RequestParam Long id){
+    public String form(Model model, @RequestParam(required = false) Long id){
+        log.info("@# id"+id);
+
         if (id == null){
             model.addAttribute("board", new Board());
         }else {
