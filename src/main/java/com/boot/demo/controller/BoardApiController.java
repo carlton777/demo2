@@ -4,6 +4,7 @@ import com.boot.demo.model.Board;
 import com.boot.demo.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -15,8 +16,17 @@ class BoardApiController {
   private BoardRepository repository;
 
   @GetMapping("/boards")
-  List<Board> all() {
-    return repository.findAll();
+//  List<Board> all() {
+//  List<Board> all(@RequestParam(required = false) String title) {
+  List<Board> all(@RequestParam(required = false, defaultValue = "") String title,
+                  @RequestParam(required = false, defaultValue = "") String content) {
+//    if (StringUtils.isEmpty(title)){
+    if (StringUtils.isEmpty(title) && StringUtils.isEmpty(content)){
+      return repository.findAll();
+    }else {
+//      return repository.findByTitle(title);
+      return repository.findByTitleOrContent(title, content);
+    }
   }
   // end::get-aggregate-root[]
 
